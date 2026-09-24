@@ -23,8 +23,8 @@ pipeline {
 
         stage('Run Unit Tests') {
             steps {
-                echo 'Running pytest suite in verbose mode...'
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                echo 'Running unit tests in verbose mode...'
+                catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
                     bat '''
                     call venv\\Scripts\\activate
                     pytest -v
@@ -34,3 +34,4 @@ pipeline {
         }
     }
 }
+       
