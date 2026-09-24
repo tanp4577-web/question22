@@ -4,18 +4,18 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo 'Checking out source code from SCM...'
+                echo 'Checking out source code from Git repository...'
                 checkout scm
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                echo 'Setting up Python Environment and installing requirements...'
+                echo 'Setting up Python Environment and resolving path constraints...'
                 bat '''
                 python -m venv venv
                 call venv\\Scripts\\activate
-                pip install --upgrade pip
+                python -m pip install --upgrade pip --user
                 pip install pytest
                 '''
             }
@@ -23,7 +23,7 @@ pipeline {
 
         stage('Run Unit Tests') {
             steps {
-                echo 'Running unit tests in verbose mode...'
+                echo 'Running pytest suite in verbose mode...'
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     bat '''
                     call venv\\Scripts\\activate
